@@ -14,7 +14,10 @@ const validateForm = (values) => {
             [key]: `password confirmation feild can not be blank`,
           };
         } else {
-          error = { ...error, [key]: `${key} feild can not be blank` };
+          error = {
+            ...error,
+            [key]: `${key.replace(/[^0-9a-z]/gi, '')} feild can not be blank`,
+          };
         }
       } else if (key === 'password') {
         if (value.length < 6) {

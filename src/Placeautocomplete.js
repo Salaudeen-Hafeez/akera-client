@@ -20,8 +20,8 @@ const PlaceAutocomplete = (props) => {
             className="bg-gray-600 text-white focus:bg-gray-800 h-6 hover:bg-gray-900"
           />
           <small className="text-red-600 font-bold brightness-105">
-            {Object.keys(props.data.error).length !== 0 &&
-              `${props.label} can not be blank`}
+            {props.data.error[props.inputName] &&
+              `${props.data.error[props.inputName]}`}
           </small>
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
@@ -43,7 +43,7 @@ const PlaceAutocomplete = (props) => {
                   };
               return (
                 <div
-                  key={suggestion.description}
+                  key={suggestion.placeId}
                   {...getSuggestionItemProps(suggestion, {
                     className,
                     style,

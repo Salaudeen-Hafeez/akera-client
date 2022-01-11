@@ -11,34 +11,58 @@ const RequireAuth = ({ children }) => {
     case '/packagepage':
       return userAuthed !== null && selectedPackage !== null ? (
         children
-      ) : userAuthed !== null ? (
+      ) : userAuthed !== null && userAuthed.user.auth_token ? (
         <Navigate to="/dashboard" replace state={{ path: location.pathname }} />
       ) : (
         <Navigate to="/login" replace state={{ path: location.pathname }} />
       );
     case '/login':
-      return userAuthed === null ? (
-        children
-      ) : userAuthed !== null && userAuthed.user ? (
-        <Navigate to="/dashboard" replace state={{ path: location.pathname }} />
+      return userAuthed !== null ? (
+        userAuthed.admin && userAuthed.admin.admin_token ? (
+          <Navigate
+            to="/adminpage"
+            replace
+            state={{ path: location.pathname }}
+          />
+        ) : userAuthed.user && userAuthed.user.auth_token ? (
+          <Navigate
+            to="/dashboard"
+            replace
+            state={{ path: location.pathname }}
+          />
+        ) : (
+          children
+        )
       ) : (
-        <Navigate to="/adminpage" replace state={{ path: location.pathname }} />
+        children
       );
     case '/addpackage':
-      return userAuthed !== null && userAuthed.user ? (
-        children
+      return userAuthed !== null ? (
+        userAuthed.user && userAuthed.user.auth_token ? (
+          children
+        ) : (
+          <Navigate to="/login" replace state={{ path: location.pathname }} />
+        )
       ) : (
         <Navigate to="/login" replace state={{ path: location.pathname }} />
       );
     case '/dashboard':
-      return userAuthed !== null && userAuthed.user ? (
-        children
+      return userAuthed !== null ? (
+        userAuthed.user || userAuthed.user.auth_token ? (
+          children
+        ) : (
+          <Navigate to="/login" replace state={{ path: location.pathname }} />
+        )
       ) : (
         <Navigate to="/login" replace state={{ path: location.pathname }} />
       );
     case '/adminpage':
-      return userAuthed !== null && userAuthed.admin ? (
-        children
+      return userAuthed !== null ? (
+        userAuthed.admin || userAuthed.admin.admin_token ? (
+          children
+        ) : (
+          <Navigate to="/login" replace state={{ path: location.pathname }} />
+        )
       ) : (
         <Navigate to="/login" replace state={{ path: location.pathname }} />
       );

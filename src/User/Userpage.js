@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import useFetchGet from '../Fetchhooks/useFetchGet';
 import UserPackages from './Userpackages';
 import Navbar from '../Universal/Navbar';
-
 import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
@@ -102,10 +101,12 @@ const UserPage = () => {
             </div>
             <div className="w-full p-3">
               {isLoading && (
-                <h2 className="text-gray-900 font-bold mt-3">Loading...</h2>
+                <h2 className="text-gray-900 text-center font-bold mt-3">
+                  Loading...
+                </h2>
               )}
-              {token && fetchError !== null && (
-                <h2 className="mt-3 font-bold text-red-500">
+              {token && fetchError !== null && !isLoading && (
+                <h2 className="mt-3 font-bold text-red-500 text-center">
                   {fetchError.errMessage}
                 </h2>
               )}

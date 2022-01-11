@@ -9,7 +9,6 @@ const AdminComponent = ({ data, adminEvents }) => {
     handleDeliveredPackage,
     handleCanceledPackage,
   } = adminEvents;
-
   const handlePackage = () => {
     setShowPackage(!showPackage);
   };

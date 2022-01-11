@@ -116,20 +116,23 @@ const Admin = () => {
     }
   };
   const handleSelectedPackage = (e) => {
-    const packageId = parseInt(e.target.parentElement.parentElement.id);
-    const selectedPackage = packages.filter(
-      (data) => data.parcel_id === packageId
-    );
-    sessionStorage.setItem(
-      'selectedPackage',
-      JSON.stringify(selectedPackage[0])
-    );
-    navigate('/packagepage');
+    e.preventDefault();
+    if (e.target.localName !== 'button') {
+      const packageId = parseInt(e.target.parentElement.id);
+      const selectedPackage = packages.filter(
+        (data) => data.parcel_id === packageId
+      );
+      sessionStorage.setItem(
+        'selectedPackage',
+        JSON.stringify(selectedPackage[0])
+      );
+      navigate('/packagepage');
+    }
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
-    const id = e.target.parentElement.parentElement.id;
+    const id = e.target.id;
     const username = e.target.parentElement.parentElement.children[1].innerText;
     const status = e.target.parentElement.children[0].innerText;
     setDeleteUrl(
@@ -143,8 +146,8 @@ const Admin = () => {
 
   const handleDeleteUser = (e) => {
     e.preventDefault();
-    const id = e.target.parentElement.parentElement.id;
-    const username = e.target.parentElement.parentElement.children[2].innerText;
+    const id = e.target.id;
+    const username = e.target.name;
     setDeleteUrl(
       `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/${username}/${id}`
     );
@@ -172,6 +175,7 @@ const Admin = () => {
                 <div
                   id={user.users_id}
                   key={user.users_id}
+                  onClick={handleSelectedUser}
                   className="bg-mainbg p-3 rounded-lg 
                   cursor-pointer shadow-inner hover:shadow-md"
                 >
@@ -179,14 +183,13 @@ const Admin = () => {
                   <p>{user._email}</p>
                   <p>{user._username}</p>
                   <div className="flex items-end justify-between pt-2">
-                    <p
-                      className="text-blue-700 underline cursor-pointer"
-                      onClick={handleSelectedUser}
-                    >
+                    <p className="text-blue-700 underline cursor-pointer">
                       {user._status}
                     </p>
                     <button
                       className="text-right pr-3 text-red-400"
+                      id={user.users_id}
+                      name={user._username}
                       onClick={handleDeleteUser}
                     >
                       delete
@@ -213,7 +216,7 @@ const Admin = () => {
                 <div
                   key={packag.parcel_id}
                   id={packag.parcel_id}
-                  value={packag.parcel_id}
+                  onClick={handleSelectedPackage}
                   className="bg-mainbg p-3 rounded-lg 
                    shadow-inner hover:shadow-md"
                 >
@@ -221,15 +224,15 @@ const Admin = () => {
                   <p>{packag._username}</p>
                   <p>{packag._location}</p>
                   <div className="flex items-end justify-between pt-2">
-                    <p
-                      className="text-blue-700 underline cursor-pointer"
-                      onClick={handleSelectedPackage}
-                    >
+                    <p className="text-blue-700 underline cursor-pointer">
                       {packag._status}
                     </p>
                     <button
-                      className="text-right pr-3 text-red-400"
+                      className="text-right p-3 text-red-400"
                       onClick={handleDelete}
+                      name={packag._username}
+                      value={packag._status}
+                      id={packag.parcel_id}
                     >
                       delete
                     </button>

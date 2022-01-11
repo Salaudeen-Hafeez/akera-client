@@ -43,10 +43,11 @@ const usePackageForm = (validate) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validate(values);
-    setError(errors);
     if (Object.keys(errors).length === 0) {
+      setError(errors);
       setUrl(uri);
     } else {
+      setError(errors);
       setUrl('');
     }
   };

@@ -1,41 +1,52 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSignupForm from './useSignupForm';
 import useFetchPost from '../Fetchhooks/useFetchPost';
 import validateForm from '../Universal/ValidateForm';
 import SignupComponent from './SignupComponent';
+import { authContext } from '../useAuth';
 
 const SignUp = () => {
   const [error, setError] = useState({});
   const [url, setUrl] = useState('');
   const navigate = useNavigate();
   const { handleChange, values } = useSignupForm();
+  const context = useContext(authContext);
+  const { signup } = context;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validateForm(values);
-    setError(errors);
     if (Object.keys(errors).length === 0) {
+      setError(errors);
       if (values.email.includes('@sendit.com')) {
         setUrl('https://akera-logistics.herokuapp.com/api/v1/users/admins');
       } else {
         setUrl('https://akera-logistics.herokuapp.com/api/v1/users');
       }
+    } else if (Object.keys(errors).length !== 0) {
+      setError(errors);
+      setUrl('');
     }
   };
   const { data, fetchError, isLoading } = useFetchPost(url, values);
-
-  if (data !== null && Object.keys(error).length === 0) {
-    sessionStorage.clear();
-    if (values.email.includes('@sendit')) {
-      sessionStorage.setItem('adminData', JSON.stringify(data));
-      setTimeout(navigate('/adminpage'), 1200);
-    } else {
-      sessionStorage.setItem('userData', JSON.stringify(data));
-      setTimeout(navigate('/userpage'), 1200);
+  useEffect(() => {
+    if (data !== null && Object.keys(error).length === 0) {
+      sessionStorage.clear();
+      if (values.email.includes('@sendit')) {
+        sessionStorage.setItem('adminData', JSON.stringify(data));
+        signup().then(() => {
+          navigate('/adminpage');
+        });
+      } else {
+        sessionStorage.setItem('userData', JSON.stringify(data));
+        signup().then(() => {
+          navigate('/dashboard');
+        });
+      }
     }
-  }
+  }, [data, values, error, navigate, signup]);
 
   useEffect(() => {
     if (Object.keys(fetchError).length !== 0) {

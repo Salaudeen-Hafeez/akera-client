@@ -67,7 +67,7 @@ const LoginPage = ({
         <p>
           Are you new to sendIT? {''}
           <Link
-            to="signup"
+            to="/signup"
             className="text-blue-400 underline hover:text-green-400"
           >
             Create an account

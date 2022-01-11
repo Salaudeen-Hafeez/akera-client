@@ -21,7 +21,7 @@ const ChangeDestination = ({ user, data }) => {
       <form
         action=""
         onSubmit={handleSubmit}
-        className="flex flex-col items-center bg-purple-600 bg-opacity-25"
+        className="flex flex-col items-center bg-purple-600 rounded-lg bg-opacity-25"
       >
         <h2 className="text-center m-3 font-bold">
           Fill the form below to change the order {stat}

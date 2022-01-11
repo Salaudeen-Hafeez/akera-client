@@ -87,7 +87,7 @@ const PackageDetail = () => {
             </h2>
           )}
 
-          <div className="flex flex-col w-11/12 mb-3">
+          <div className="flex flex-col mb-3">
             <ChangeDestination data={usePackageFormData} user={user} />
           </div>
         </div>

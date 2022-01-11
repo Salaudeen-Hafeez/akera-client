@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { useState, createContext } from 'react';
 
-export const authContext = React.createContext();
+export const authContext = createContext();
 
 const useAuth = () => {
-  const [userAuthed, setUserAuthed] = React.useState(
+  const [userAuthed, setUserAuthed] = useState(
     JSON.parse(sessionStorage.getItem('userData')) ||
       JSON.parse(sessionStorage.getItem('adminData'))
   );
@@ -11,6 +11,15 @@ const useAuth = () => {
   return {
     userAuthed,
     login() {
+      return new Promise((res) => {
+        setUserAuthed(
+          JSON.parse(sessionStorage.getItem('userData')) ||
+            JSON.parse(sessionStorage.getItem('adminData'))
+        );
+        res();
+      });
+    },
+    signup() {
       return new Promise((res) => {
         setUserAuthed(
           JSON.parse(sessionStorage.getItem('userData')) ||
