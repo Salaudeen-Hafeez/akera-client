@@ -6,6 +6,7 @@ const LoginPage = ({
   values,
   isLoading,
 }) => {
+  console.log(error);
   return (
     <form
       onSubmit={handleSubmit}

@@ -20,7 +20,6 @@ const Login = () => {
 
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
-    setError(fetchError);
     setUrl('');
     if (data !== null && Object.keys(error).length === 0) {
       sessionStorage.clear();
@@ -37,21 +36,30 @@ const Login = () => {
       }
     }
   }, [fetchError, data, error, values, navigate, login]);
+
+  useEffect(() => {
+    if (Object.keys(fetchError).length === 0) {
+      setError(fetchError);
+      setUrl('');
+    }
+  }, [fetchError]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError({});
-    setUrl('');
     const errors = validateForm(values);
-    setError(errors);
+    console.log(errors);
     if (Object.keys(errors).length === 0) {
+      setError(errors);
       if (!values.email.includes('@sendit.com')) {
         setUrl(userUrl);
       } else {
         setUrl(adminUrl);
       }
+    } else {
+      setError(errors);
+      setUrl('');
     }
   };
-
+  console.log(error);
   return (
     <div className="flex items-center bg-gray-100 justify-center w-full h-screen">
       <LoginPage
