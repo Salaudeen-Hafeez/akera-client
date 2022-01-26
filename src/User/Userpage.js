@@ -1,55 +1,47 @@
-import { useState, useEffect } from 'react';
-import useFetchGet from '../Fetchhooks/useFetchGet';
+import { useContext, useState } from 'react';
 import UserPackages from './Userpackages';
 import Navbar from '../Universal/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { authContext } from '../useAuth';
 
 const UserPage = () => {
-  const userData = JSON.parse(sessionStorage.getItem('userData'));
-  const { _username, users_id, _email, auth_token } = userData.user;
-  const [url, setUrl] = useState('');
-  const [token, setToken] = useState(true);
+  const context = useContext(authContext);
+  const { distanceMetrix } = context;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const packages = JSON.parse(localStorage.getItem('packages'));
   const [packageData, setPackageData] = useState({});
   const navigate = useNavigate();
   const userNav = ['Logout'];
-  const packageUrl = `https://akera-logistics.herokuapp.com/api/v1/users/${_username}/${users_id}/${_email}/${auth_token}/packages`;
-  const pendingPackageUrl = `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${_username}/${auth_token}/packages/${'In transit'}`;
-
-  const { data, fetchError, isLoading } = useFetchGet(url);
-  useEffect(() => {
-    if (data !== null) {
-      setPackageData(data);
-    }
-  }, [data]);
-
   const handleClick = () => {
-    if (!('auth_token' in userData.user)) {
-      setToken(false);
+    if (!('auth_token' in user)) {
       navigate('/login');
     } else {
-      setToken(true);
-      setUrl(packageUrl);
+      setPackageData(packages);
     }
   };
   const handlePendingPackage = () => {
-    if (!('auth_token' in userData.user)) {
+    if (!('auth_token' in user)) {
       navigate('/login');
     } else {
-      setUrl(pendingPackageUrl);
+      const package1 = packages.filter(
+        (packag) => packag._status === 'In transit'
+      );
+      setPackageData(package1);
     }
   };
   const handlePackage = (e) => {
     const packageId = parseInt(e.target.parentElement.id);
-    const selectedPackage = data.filter((data) => data.parcel_id === packageId);
-    sessionStorage.setItem(
-      'selectedPackage',
-      JSON.stringify(selectedPackage[0])
+    const selectedPackage = packages.filter(
+      (data) => data.parcel_id === packageId
     );
-    navigate('/packagepage');
+    localStorage.setItem('selectedPackage', JSON.stringify(selectedPackage[0]));
+    distanceMetrix().then(() => {
+      navigate('/packagepage');
+    });
   };
 
   const handleAddPackage = () => {
-    if (!('auth_token' in userData.user)) {
+    if (!('auth_token' in user)) {
       navigate('/login');
     } else {
       navigate('/addpackage');
@@ -59,7 +51,7 @@ const UserPage = () => {
     <div>
       <Navbar linkItems={userNav} />
       <div className="text-gray-900">
-        {userData && (
+        {user && (
           <div className="flex items-center flex-col ">
             <div
               className="flex flex-col bg-userbg bg-transparent w-full 
@@ -71,13 +63,11 @@ const UserPage = () => {
                 className="w-2/5 h-24 rounded-lg mb-4"
               />
               <div className="text-center">
-                <h1 className="text-lg font-bold">{userData.user._name}</h1>
+                <h1 className="text-lg font-bold">{user._name}</h1>
                 <ul>
-                  <li id="username">{userData.user._username}</li>
-                  <li>{userData.user._email}</li>
-                  <li className="text-blue-600 font-bold">
-                    {userData.user._status}
-                  </li>
+                  <li id="username">{user._username}</li>
+                  <li>{user._email}</li>
+                  <li className="text-blue-600 font-bold">{user._status}</li>
                   <li
                     className="mt-4 
               text-sm rounded-lg 
@@ -100,41 +90,35 @@ const UserPage = () => {
               </div>
             </div>
             <div className="w-full p-3">
-              {isLoading && (
-                <h2 className="text-gray-900 text-center font-bold mt-3">
-                  Loading...
-                </h2>
-              )}
-              {token && fetchError !== null && !isLoading && (
-                <h2 className="mt-3 font-bold text-red-500 text-center">
-                  {fetchError.errMessage}
-                </h2>
-              )}
-              {Object.keys(fetchError).length === 0 &&
-                Object.keys(packageData).length !== 0 && (
-                  <div className="md:flex md:flex-col md:justify-center md:items-center w-full bg-mainbg">
-                    <h2 className="text-center text-gray-800 text-lg font-bold pt-4">
-                      My packages
-                    </h2>
-                    <div
-                      className="md:grid md:grid-cols-3 md:grid-flow-rows 
+              {Object.keys(packageData).length !== 0 && (
+                <div className="md:flex md:flex-col md:justify-center md:items-center w-full bg-mainbg">
+                  <h2 className="text-center text-gray-800 text-lg font-bold pt-4">
+                    My packages
+                  </h2>
+                  <div
+                    className="md:grid md:grid-cols-3 md:grid-flow-rows 
                     md:gap-3 list-none w-full"
-                    >
-                      {packageData.map((data) => (
-                        <div
-                          key={data.parcel_id}
-                          className="bg-mainbg p-3 rounded-lg 
+                  >
+                    {packageData.length === 0 && (
+                      <h2 className="font-bold text-xl text-red-500 text-center">
+                        No packages
+                      </h2>
+                    )}
+                    {packageData.map((data) => (
+                      <div
+                        key={data.parcel_id}
+                        className="bg-mainbg p-3 rounded-lg 
                    shadow-inner hover:shadow-md"
-                        >
-                          <UserPackages
-                            packages={data}
-                            handlePackage={handlePackage}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                      >
+                        <UserPackages
+                          packages={data}
+                          handlePackage={handlePackage}
+                        />
+                      </div>
+                    ))}
                   </div>
-                )}
+                </div>
+              )}
             </div>
             <button
               onClick={handleAddPackage}

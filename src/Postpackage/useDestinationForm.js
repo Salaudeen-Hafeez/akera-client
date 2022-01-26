@@ -1,34 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useFetchPut from '../Fetchhooks/useFetchPut';
 
 const useDestinationForm = (validate) => {
   const [error, setError] = useState({});
   const [url, setUrl] = useState('');
-  const packages = JSON.parse(sessionStorage.getItem('selectedPackage'));
+  const packages = JSON.parse(localStorage.getItem('selectedPackage'));
   let token = '';
-  let name;
+  let name, email, userId;
   const user =
-    JSON.parse(sessionStorage.getItem('userData')) ||
-    JSON.parse(sessionStorage.getItem('adminData'));
-
-  if (user.admin) {
-    token = user.admin.admin_token;
-    name = '_location';
-  } else {
-    token = user.user.auth_token;
-    name = '_destination';
+    JSON.parse(localStorage.getItem('user')) ||
+    JSON.parse(localStorage.getItem('admin'));
+  if (user !== null) {
+    email = user._email;
+    userId = user.users_id;
+    if (user.admin_token) {
+      token = user.admin_token;
+      name = '_location';
+    } else {
+      token = user.auth_token;
+      name = '_destination';
+    }
   }
-  const { _email, users_id } = user.user || user.admin;
+
   const [values, setValues] = useState({ [name]: '' });
   const handleSelectChange = (e) => {
-    console.log(e);
     setUrl('');
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const uri = `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${users_id}/${token}/packages/${parseInt(
+  const uri = `https://akera-logistics.herokuapp.com/api/v1/users/${email}/${userId}/${token}/packages/${parseInt(
     packages.parcel_id
   )}`;
   const { data, fetchError, isLoading } = useFetchPut(url, values);
+  useEffect(() => {
+    setUrl('');
+  }, [data]);
   const handleSubmit = (e) => {
     e.preventDefault();
     setUrl('');
@@ -38,7 +43,6 @@ const useDestinationForm = (validate) => {
       const errors = validate(values);
       if (Object.keys(errors).length === 0) {
         setError(errors);
-        setValues({ ...values, [e.target.name]: e.target.value });
         setUrl(uri);
       } else {
         setError(errors);

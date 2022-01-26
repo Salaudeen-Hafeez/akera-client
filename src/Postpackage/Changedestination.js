@@ -6,7 +6,7 @@ const ChangeDestination = ({ user, data }) => {
   let label;
   let stat = 'status';
   let showStatusInput = true;
-  if (user.admin) {
+  if (user.admin_token) {
     label = 'New location';
     name = '_location';
   } else {

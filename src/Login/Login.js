@@ -22,14 +22,17 @@ const Login = () => {
   useEffect(() => {
     setUrl('');
     if (data !== null && Object.keys(error).length === 0) {
-      sessionStorage.clear();
+      localStorage.clear();
       if (values.email.includes('@sendit')) {
-        sessionStorage.setItem('adminData', JSON.stringify(data));
+        localStorage.setItem('admin', JSON.stringify(data.admin));
+        localStorage.setItem('users', JSON.stringify(data.users));
+        localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
           navigate('/adminpage');
         });
       } else {
-        sessionStorage.setItem('userData', JSON.stringify(data));
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
           navigate('/dashboard');
         });

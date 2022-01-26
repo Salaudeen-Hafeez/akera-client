@@ -1,15 +1,7 @@
-const DisplayPackage = () => {
-  const packages = JSON.parse(sessionStorage.getItem('selectedPackage'));
-
+const DisplayPackage = ({ packages }) => {
   return (
     <div className="bg-packagebg bg-opacity-40 shadow-lg p-2 rounded">
       <div className="flex flex-col items-center my-4">
-        <img
-          src="/images/Lagos4.jpg"
-          alt="profilepicture"
-          className="w-10/12 mb-2 rounded"
-        />
-
         <table className="border-2 border-gray-400 w-11/12">
           <thead>
             <tr className="border-2 border-gray-400 text-center">
@@ -29,6 +21,7 @@ const DisplayPackage = () => {
               <td className="border-2 border-gray-400">Reciever</td>
               <td>{packages._reciever}</td>
             </tr>
+
             <tr className="text-center">
               <td colSpan="2" className="td-status">
                 <button>{packages._status}</button>

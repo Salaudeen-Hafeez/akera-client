@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetchDelete from '../Fetchhooks/useFetchDelete';
-import useFetchGet from '../Fetchhooks/useFetchGet';
+import { authContext } from '../useAuth';
 import AdminComponent from './Admincomponent';
 
 const Admin = () => {
-  const [url, setUrl] = useState('');
-  const [users, setUsers] = useState(null);
-  const [packages, setPackages] = useState(null);
+  const context = useContext(authContext);
+  const { distanceMetrix } = context;
+  const [users, setUsers] = useState({});
+  const [packages, setPackages] = useState(
+    JSON.parse(localStorage.getItem('packages'))
+  );
+  const [packages1, setPackages1] = useState(null);
   const [deleteUrl, setDeleteUrl] = useState('');
   const [usersDataReady, setUsersDataReady] = useState(false);
   const [packageDataReady, setpackageDataReady] = useState(false);
@@ -15,76 +19,56 @@ const Admin = () => {
   const [togglePackages, setTogglePackages] = useState(false);
   const navigate = useNavigate();
 
-  const { data: data1, fetchError, isLoading } = useFetchGet(url);
-  const { data: data2 } = useFetchDelete(deleteUrl);
-
-  const adminData = JSON.parse(sessionStorage.getItem('adminData'));
-  const { admin_token, _email } = adminData.admin;
-
+  const { data } = useFetchDelete(deleteUrl);
+  const admin = JSON.parse(localStorage.getItem('admin'));
+  const { admin_token, _email } = admin;
   useEffect(() => {
-    if (Array.isArray(data1) && data1.length) {
-      if ('users_id' in data1[0]) {
-        setUsers(data1);
-        setpackageDataReady(false);
-        setUsersDataReady(true);
-        setUrl('');
-      } else if ('parcel_id' in data1[0]) {
-        setPackages(data1);
-        sessionStorage.setItem('usersPackage', JSON.stringify(data1));
-        setUsersDataReady(false);
-        setpackageDataReady(true);
-        setUrl('');
-      }
-    }
-  }, [data1]);
-
-  useEffect(() => {
-    if (Array.isArray(data2) && data2.length) {
-      if ('users_id' in data2[0]) {
-        setUsers(data2);
+    if (data !== null && Object.keys(data).length !== 0) {
+      if (data.users) {
+        setUsers(data.users);
         setDeleteUrl('');
-      } else if ('parcel_id' in data2[0]) {
-        setPackages(data2);
+      } else if (data.package) {
+        localStorage.setItem('packages', JSON.stringify(data.packages));
+        const package1 = data.packages.filter(
+          (packag) => packag._status === data.package._status
+        );
+        setPackages1(package1);
+        setPackages(data.packages);
         setDeleteUrl('');
       }
     }
-  }, [data2]);
-
+  }, [data]);
   const handleUser = () => {
     if (!admin_token) {
       navigate('/login');
     } else {
-      setUrl(
-        `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}`
-      );
+      setUsers(JSON.parse(localStorage.getItem('users')));
       setToggleUsers(!toggleUsers);
       setUsersDataReady(true);
       setpackageDataReady(false);
     }
   };
-
   const handleNewPackage = () => {
     if (!admin_token) {
       navigate('/login');
     } else {
-      const condition = 'At the location';
-      setUrl(
-        `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/packages/${condition}`
+      const package1 = packages.filter(
+        (packag) => packag._status === 'Ready for pickup'
       );
+      setPackages1(package1);
       setTogglePackages(!togglePackages);
       setUsersDataReady(false);
       setpackageDataReady(true);
     }
   };
-
   const handleCanceledPackage = () => {
     if (!admin_token) {
       navigate('/login');
     } else {
-      const condition = 'Order Canceled';
-      setUrl(
-        `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/packages/${condition}`
+      const package1 = packages.filter(
+        (packag) => packag._status === 'Order Canceled'
       );
+      setPackages1(package1);
       setTogglePackages(!togglePackages);
       setUsersDataReady(false);
       setpackageDataReady(true);
@@ -94,25 +78,26 @@ const Admin = () => {
     if (!admin_token) {
       navigate('/login');
     } else {
-      const condition = 'In transit';
-      setUrl(
-        `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/packages/${condition}`
+      const package1 = packages.filter(
+        (packag) => packag._status === 'In transit'
       );
+      setPackages1(package1);
       setTogglePackages(!togglePackages);
       setUsersDataReady(false);
+      setpackageDataReady(true);
     }
   };
-
   const handleDeliveredPackage = () => {
     if (!admin_token) {
       navigate('/login');
     } else {
-      const condition = 'Delivered';
-      setUrl(
-        `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/packages/${condition}`
+      const package1 = packages.filter(
+        (packag) => packag._status === 'Delivered'
       );
+      setPackages1(package1);
       setTogglePackages(!togglePackages);
       setUsersDataReady(false);
+      setpackageDataReady(true);
     }
   };
   const handleSelectedPackage = (e) => {
@@ -122,14 +107,15 @@ const Admin = () => {
       const selectedPackage = packages.filter(
         (data) => data.parcel_id === packageId
       );
-      sessionStorage.setItem(
+      localStorage.setItem(
         'selectedPackage',
         JSON.stringify(selectedPackage[0])
       );
-      navigate('/packagepage');
+      distanceMetrix().then(() => {
+        navigate('/packagepage');
+      });
     }
   };
-
   const handleDelete = (e) => {
     e.preventDefault();
     const id = e.target.id;
@@ -139,11 +125,9 @@ const Admin = () => {
       `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/${username}/packages/${id}/${status}`
     );
   };
-
   const handleSelectedUser = (e) => {
     e.preventDefault();
   };
-
   const handleDeleteUser = (e) => {
     e.preventDefault();
     const id = e.target.id;
@@ -152,7 +136,6 @@ const Admin = () => {
       `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/${username}/${id}`
     );
   };
-
   const adminEvents = {
     handleUser,
     handleNewPackage,
@@ -163,7 +146,7 @@ const Admin = () => {
 
   return (
     <div className="bg-gray-200 bg-opacity-15">
-      <AdminComponent data={adminData.admin} adminEvents={adminEvents} />
+      <AdminComponent data={admin} adminEvents={adminEvents} />
       <div className="md:w-full md:flex md:justify-center">
         {usersDataReady && users !== null && (
           <div
@@ -200,18 +183,17 @@ const Admin = () => {
             })}
           </div>
         )}
-        {isLoading && <h2 className="text-center mt-10">Loading...</h2>}
-        {Object.keys(fetchError).length !== 0 && (
-          <h2 className="mt-3 font-bold text-red-500 text-center">
-            {fetchError.errMessage}
-          </h2>
-        )}
-        {packageDataReady && packages !== null && (
+        {packageDataReady && packages1 !== null && (
           <div
             className="md:grid md:grid-cols-3 md:grid-flow-rows 
           md:gap-3 list-none"
           >
-            {packages.map((packag) => {
+            {packages1.length === 0 && (
+              <h2 className="font-bold text-xl text-red-500 text-center">
+                No packages
+              </h2>
+            )}
+            {packages1.map((packag) => {
               return (
                 <div
                   key={packag.parcel_id}

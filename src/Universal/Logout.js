@@ -5,7 +5,7 @@ const Logout = () => {
   const navigate = useNavigate();
   const context = useContext(authContext);
   const { logout } = context;
-  sessionStorage.clear();
+  localStorage.clear();
   useEffect(() => {
     logout();
     navigate('/');

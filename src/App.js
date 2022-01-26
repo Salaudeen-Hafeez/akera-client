@@ -20,7 +20,7 @@ function App() {
     deliver: 'We deliver the package',
   };
   const homeNav = ['signup', 'login'];
-  const adminNav = ['home', 'Users', 'Packages', 'logout'];
+  const adminNav = ['logout'];
 
   return (
     <AuthProvider>

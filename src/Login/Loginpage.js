@@ -1,12 +1,7 @@
 import { Link } from 'react-router-dom';
-const LoginPage = ({
-  handleChange,
-  handleSubmit,
-  error,
-  values,
-  isLoading,
-}) => {
-  console.log(error);
+const LoginPage = (props) => {
+  const { handleChange, handleSubmit, error, values, isLoading } = props;
+
   return (
     <form
       onSubmit={handleSubmit}

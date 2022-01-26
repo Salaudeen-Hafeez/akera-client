@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import useFetchPost from '../Fetchhooks/useFetchPost';
 
 const usePackageForm = (validate) => {
-  const userData = JSON.parse(sessionStorage.getItem('userData'));
-  const { _username, _email, auth_token } = userData.user;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const { _username, _email, auth_token } = user;
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [url, setUrl] = useState('');
@@ -18,6 +18,60 @@ const usePackageForm = (validate) => {
     username: _username,
   });
   const uri = `https://akera-logistics.herokuapp.com/api/v1/users/${_username}/${_email}/${auth_token}/packages`;
+  const toNaira = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'NGN',
+  });
+  const cost = (dist, dur) => {
+    let multiplier;
+    switch (dist) {
+      case dist <= 10000:
+        multiplier = 400;
+        break;
+      case 10000 <= dist <= 30000:
+        multiplier = 250;
+        break;
+      case 30000 <= dist <= 70000:
+        multiplier = 190;
+        break;
+      case 70000 <= dist <= 1200000:
+        multiplier = 120;
+        break;
+      case 1200000 <= dist <= 250000:
+        multiplier = 60;
+        break;
+      default:
+        multiplier = 40;
+        break;
+    }
+    const totalcost = ((dist + dur) / 1000) * multiplier;
+    const naira = toNaira.format(Math.round(totalcost));
+    return naira;
+  };
+  const distanceMetrix = async (packages) => {
+    const service = new window.google.maps.DistanceMatrixService();
+    const add = [packages.location, packages.destination];
+    let tripFare;
+    const request = {
+      origins: [add[0]],
+      destinations: [add[1]],
+      travelMode: window.google.maps.TravelMode.DRIVING,
+      unitSystem: window.google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false,
+    };
+    // get distance matrix response
+    let distMetrix = await service
+      .getDistanceMatrix(request)
+      .then((response) => {
+        return response;
+      });
+    const { distance, duration, status } = distMetrix.rows[0].elements[0];
+    if (status === 'OK') {
+      tripFare = cost(distance.value, duration.value);
+    }
+    return { tripFare, distMetrix };
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,10 +94,16 @@ const usePackageForm = (validate) => {
       });
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validate(values);
     if (Object.keys(errors).length === 0) {
+      const { tripFare } = await distanceMetrix(values);
+      setValues({
+        ...values,
+        cost: tripFare,
+      });
+
       setError(errors);
       setUrl(uri);
     } else {
@@ -53,8 +113,8 @@ const usePackageForm = (validate) => {
   };
   const { data, fetchError, isLoading } = useFetchPost(url, values, _username);
   if (data !== null) {
-    sessionStorage.removeItem('selectedPackage');
-    sessionStorage.setItem('selectedPackage', JSON.stringify(data));
+    localStorage.setItem('selectedPackage', JSON.stringify(data.package));
+    localStorage.setItem('packages', JSON.stringify(data.packages));
     navigate('/dashboard');
   }
 

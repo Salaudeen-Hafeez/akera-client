@@ -2,8 +2,7 @@ import { authContext } from './useAuth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 const RequireAuth = ({ children }) => {
-  const selectedPackage = JSON.parse(sessionStorage.getItem('selectedPackage'));
-
+  const selectedPackage = JSON.parse(localStorage.getItem('selectedPackage'));
   const context = useContext(authContext);
   const { userAuthed } = context;
   const location = useLocation();
@@ -11,20 +10,20 @@ const RequireAuth = ({ children }) => {
     case '/packagepage':
       return userAuthed !== null && selectedPackage !== null ? (
         children
-      ) : userAuthed !== null && userAuthed.user.auth_token ? (
+      ) : userAuthed !== null && userAuthed.auth_token ? (
         <Navigate to="/dashboard" replace state={{ path: location.pathname }} />
       ) : (
         <Navigate to="/login" replace state={{ path: location.pathname }} />
       );
     case '/login':
       return userAuthed !== null ? (
-        userAuthed.admin && userAuthed.admin.admin_token ? (
+        userAuthed.admin_token ? (
           <Navigate
             to="/adminpage"
             replace
             state={{ path: location.pathname }}
           />
-        ) : userAuthed.user && userAuthed.user.auth_token ? (
+        ) : userAuthed.auth_token ? (
           <Navigate
             to="/dashboard"
             replace
@@ -38,7 +37,7 @@ const RequireAuth = ({ children }) => {
       );
     case '/addpackage':
       return userAuthed !== null ? (
-        userAuthed.user && userAuthed.user.auth_token ? (
+        userAuthed.auth_token ? (
           children
         ) : (
           <Navigate to="/login" replace state={{ path: location.pathname }} />
@@ -48,7 +47,7 @@ const RequireAuth = ({ children }) => {
       );
     case '/dashboard':
       return userAuthed !== null ? (
-        userAuthed.user || userAuthed.user.auth_token ? (
+        userAuthed.auth_token ? (
           children
         ) : (
           <Navigate to="/login" replace state={{ path: location.pathname }} />
@@ -58,7 +57,7 @@ const RequireAuth = ({ children }) => {
       );
     case '/adminpage':
       return userAuthed !== null ? (
-        userAuthed.admin || userAuthed.admin.admin_token ? (
+        userAuthed.admin_token ? (
           children
         ) : (
           <Navigate to="/login" replace state={{ path: location.pathname }} />
