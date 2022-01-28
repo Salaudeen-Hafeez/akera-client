@@ -90,6 +90,11 @@ const UserPage = () => {
               </div>
             </div>
             <div className="w-full p-3">
+              {packageData.length === 0 && (
+                <h2 className="font-bold text-xl text-red-500 mt-20px text-center">
+                  No packages
+                </h2>
+              )}
               {Object.keys(packageData).length !== 0 && (
                 <div className="md:flex md:flex-col md:justify-center md:items-center w-full bg-mainbg">
                   <h2 className="text-center text-gray-800 text-lg font-bold pt-4">
@@ -99,11 +104,6 @@ const UserPage = () => {
                     className="md:grid md:grid-cols-3 md:grid-flow-rows 
                     md:gap-3 list-none w-full"
                   >
-                    {packageData.length === 0 && (
-                      <h2 className="font-bold text-xl text-red-500 text-center">
-                        No packages
-                      </h2>
-                    )}
                     {packageData.map((data) => (
                       <div
                         key={data.parcel_id}

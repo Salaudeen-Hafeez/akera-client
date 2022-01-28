@@ -8,6 +8,7 @@ import DisplayPackage from './Displaypackage';
 import useDestinationForm from '../Postpackage/useDestinationForm';
 import validateForm from '../Universal/ValidateForm';
 import { authContext } from '../useAuth';
+
 const PackageDetail = () => {
   const navigate = useNavigate();
   const context = useContext(authContext);
@@ -35,9 +36,8 @@ const PackageDetail = () => {
     handleCancelButton,
     handleSelectChange,
   } = useDestinationForm(validateForm);
-
-  let location = {};
-  let destination = {};
+  let location = null;
+  let destination = null;
   const geoCode1 = useFetchGet(geoCode1Url);
   const geoCode2 = useFetchGet(geoCode2Url);
   if (geoCode1.data !== null && geoCode2.data !== null) {
@@ -47,12 +47,9 @@ const PackageDetail = () => {
     }
   }
   useEffect(() => {
-    distanceMetrix().then(() => {
-      const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
-      setDistance(dist);
-    });
     if (data !== null) {
       setPackages(data.package);
+      localStorage.setItem('selectedPackage', JSON.stringify(data.package));
       localStorage.setItem('packages', JSON.stringify(data.packages));
       setGeoCode1Url(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${data.package._location}&key=AIzaSyD9LtzkCH903RTWTMDehYnSmOVitAhBtwA`
@@ -60,6 +57,10 @@ const PackageDetail = () => {
       setGeoCode2Url(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${data.package._destination}&key=AIzaSyD9LtzkCH903RTWTMDehYnSmOVitAhBtwA`
       );
+      distanceMetrix().then(() => {
+        const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
+        setDistance(dist);
+      });
     }
   }, [data, distanceMetrix]);
 
@@ -86,7 +87,9 @@ const PackageDetail = () => {
             handleCancelButton={handleCancelButton}
             cost={packages._cost}
           />
-          <AppMap location={location} destination={destination} />
+          {location !== null && destination !== null && (
+            <AppMap location={location} destination={destination} />
+          )}
           <div className="py-3">
             <p className="flex justify-between pb-2">
               <span>Distance:</span>

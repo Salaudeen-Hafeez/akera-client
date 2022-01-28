@@ -4,11 +4,10 @@ const useFetchGet = (url, values) => {
   const [data, setData] = useState(null);
   const [fetchError, setFetchError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
-    //const abortConst = new AbortController();
     if (url !== '') {
       setIsLoading(true);
+
       fetch(url)
         .then((resp) => {
           return resp.json();

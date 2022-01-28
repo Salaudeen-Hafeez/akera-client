@@ -37,12 +37,12 @@ const SignUp = () => {
       if (values.email.includes('@sendit')) {
         sessionStorage.setItem('adminData', JSON.stringify(data));
         signup().then(() => {
-          //navigate('/adminpage');
+          navigate('/adminpage');
         });
       } else {
         sessionStorage.setItem('userData', JSON.stringify(data));
         signup().then(() => {
-          // navigate('/dashboard');
+          navigate('/dashboard');
         });
       }
     }

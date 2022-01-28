@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetchPost from '../Fetchhooks/useFetchPost';
 
@@ -50,11 +50,10 @@ const usePackageForm = (validate) => {
   };
   const distanceMetrix = async (packages) => {
     const service = new window.google.maps.DistanceMatrixService();
-    const add = [packages.location, packages.destination];
     let tripFare;
     const request = {
-      origins: [add[0]],
-      destinations: [add[1]],
+      origins: [packages.location],
+      destinations: [packages.destination],
       travelMode: window.google.maps.TravelMode.DRIVING,
       unitSystem: window.google.maps.UnitSystem.METRIC,
       avoidHighways: false,
@@ -99,11 +98,7 @@ const usePackageForm = (validate) => {
     const errors = validate(values);
     if (Object.keys(errors).length === 0) {
       const { tripFare } = await distanceMetrix(values);
-      setValues({
-        ...values,
-        cost: tripFare,
-      });
-
+      values['cost'] = tripFare;
       setError(errors);
       setUrl(uri);
     } else {
@@ -112,11 +107,13 @@ const usePackageForm = (validate) => {
     }
   };
   const { data, fetchError, isLoading } = useFetchPost(url, values, _username);
-  if (data !== null) {
-    localStorage.setItem('selectedPackage', JSON.stringify(data.package));
-    localStorage.setItem('packages', JSON.stringify(data.packages));
-    navigate('/dashboard');
-  }
+  useEffect(() => {
+    if (data !== null) {
+      localStorage.setItem('selectedPackage', JSON.stringify(data.package));
+      localStorage.setItem('packages', JSON.stringify(data.packages));
+      navigate('/dashboard');
+    }
+  }, [data, navigate]);
 
   return {
     handleChange,

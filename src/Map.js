@@ -5,7 +5,6 @@ const AppMap = ({ location, destination }) => {
   return (
     <div className="w-full h-72">
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyD9LtzkCH903RTWTMDehYnSmOVitAhBtwA' }}
         center={{
           lat: location.lat,
           lng: location.lng,
