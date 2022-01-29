@@ -50,7 +50,6 @@ const validateForm = (values) => {
       }
     });
   }
-  console.log(values);
   return error;
 };
 
