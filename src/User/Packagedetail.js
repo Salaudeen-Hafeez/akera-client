@@ -97,7 +97,7 @@ const PackageDetail = () => {
           {location !== null && destination !== null && (
             <AppMap location={location} destination={destination} />
           )}
-          {
+          {distance !== null && (
             <div className="p-3">
               <p className="flex justify-between pb-2">
                 <span>Distance:</span>
@@ -108,7 +108,7 @@ const PackageDetail = () => {
                 {distance.rows[0].elements[0].duration.text}
               </p>
             </div>
-          }
+          )}
           {isLoading && (
             <h2 className="font-bold mt-3 text-center">
               updating destination...
