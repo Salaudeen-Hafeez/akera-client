@@ -8,7 +8,6 @@ import PlaceAutocomplete from '../Placeautocomplete';
 const Package = () => {
   const { handleChange, handleSubmit, isLoading, values, error } =
     usePackageForm(validateForm);
-  console.log(error);
   const usePackageFormData = {
     handleChange,
     values,

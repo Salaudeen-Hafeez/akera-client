@@ -69,22 +69,22 @@ const UserPage = () => {
                   <li>{user._email}</li>
                   <li className="text-blue-600 font-bold">{user._status}</li>
                   <li
-                    className="mt-4 
-              text-sm rounded-lg 
-              cursor-pointer hover:underline 
-              hover:bg-gray-600"
-                  >
-                    <button onClick={handleClick}>My packages</button>
-                  </li>
-                  <li
-                    className="mt-4 
+                    className=" 
               text-sm rounded-lg 
               cursor-pointer 
-              hover:bg-btnbg"
+              hover:bg-gray-300 py-4"
+                    onClick={handleClick}
                   >
-                    <button onClick={handlePendingPackage}>
-                      Pending packages
-                    </button>
+                    <button>My packages</button>
+                  </li>
+                  <li
+                    className=" 
+              text-sm rounded-lg 
+              cursor-pointer 
+              hover:bg-gray-300 py-4"
+                    onClick={handlePendingPackage}
+                  >
+                    <button>Pending packages</button>
                   </li>
                 </ul>
               </div>
@@ -108,7 +108,7 @@ const UserPage = () => {
                       <div
                         key={data.parcel_id}
                         className="bg-mainbg p-3 rounded-lg 
-                   shadow-inner hover:shadow-md"
+                   shadow-inner hover:shadow-md hover:bg-gray-100"
                       >
                         <UserPackages
                           packages={data}

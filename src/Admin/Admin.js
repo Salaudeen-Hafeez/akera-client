@@ -201,7 +201,7 @@ const Admin = () => {
                   id={packag.parcel_id}
                   onClick={handleSelectedPackage}
                   className="bg-mainbg p-3 rounded-lg 
-                   shadow-inner hover:shadow-md"
+                   shadow-inner hover:shadow-md hover:bg-gray-100"
                 >
                   <h2 className="font-bold ">{packag._name}</h2>
                   <p>{packag._username}</p>

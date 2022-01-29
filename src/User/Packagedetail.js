@@ -66,7 +66,12 @@ const PackageDetail = () => {
 
   const handleOkayButton = (e) => {
     e.preventDefault();
-    navigate(-1);
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate(-1);
+    }
   };
   const usePackageFormData = {
     handleSelectChange,

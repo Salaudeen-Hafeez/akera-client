@@ -71,7 +71,6 @@ const SignUp = () => {
           className="flex flex-col items-left justify-center
          bg-gray-800 text-white px-10 text-sm h-4/5 rounded-md"
         >
-          {isLoading && <h2 className="text-center mt-10">Loading...</h2>}
           <div className="text-center">
             <h2 className="mb-6 text-lg font-bold">Sign-up Now</h2>
             <p className="mb-4">
@@ -79,6 +78,7 @@ const SignUp = () => {
               our services
             </p>
           </div>
+          {isLoading && <h2 className="text-center mt-10">Loading...</h2>}
           {Object.keys(fetchError).length !== 0 && (
             <h2 className="mt-3 font-bold text-red-500">
               {fetchError.errMessage}
