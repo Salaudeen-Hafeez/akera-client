@@ -115,20 +115,11 @@ const usePackageForm = (validate) => {
     }
   };
   const { data, fetchError, isLoading } = useFetchPost(url, values, _username);
-  // const postdata = (data) => {
-  //   return new Promise((res) => {
-  //     localStorage.setItem('selectedPackage', JSON.stringify(data.package));
-  //     localStorage.setItem('packages', JSON.stringify(data.packages));
-  //     res();
-  //   });
-  // };
   useEffect(() => {
     if (data !== null) {
-      // postdata(data).then(() => {
       localStorage.setItem('selectedPackage', JSON.stringify(data.package));
       localStorage.setItem('packages', JSON.stringify(data.packages));
       navigate('/packagepage');
-      // });
     }
   }, [data, navigate]);
 
