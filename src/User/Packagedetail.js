@@ -60,7 +60,6 @@ const PackageDetail = () => {
     }
     distanceMetrix().then(() => {
       const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
-      console.log(dist);
       setDistance(dist);
     });
   }, [data, distanceMetrix]);
@@ -82,7 +81,6 @@ const PackageDetail = () => {
     values,
     error,
   };
-  console.log(distance);
   return (
     <div className="">
       <div className="flex justify-center items-center w-full md:items-center bg-gray-200">
