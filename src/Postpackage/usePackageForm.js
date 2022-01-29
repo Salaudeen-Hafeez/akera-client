@@ -115,11 +115,18 @@ const usePackageForm = (validate) => {
     }
   };
   const { data, fetchError, isLoading } = useFetchPost(url, values, _username);
-  useEffect(() => {
-    if (data !== null) {
+  const postdata = (data) => {
+    return new Promise((res) => {
       localStorage.setItem('selectedPackage', JSON.stringify(data.package));
       localStorage.setItem('packages', JSON.stringify(data.packages));
-      navigate('/packagepage');
+      res();
+    });
+  };
+  useEffect(() => {
+    if (data !== null) {
+      postdata(data).then(() => {
+        navigate('/packagepage');
+      });
     }
   }, [data, navigate]);
 
