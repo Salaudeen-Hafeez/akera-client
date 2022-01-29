@@ -47,6 +47,7 @@ const PackageDetail = () => {
     }
   }
   useEffect(() => {
+    console.log('hello!');
     if (data !== null) {
       setPackages(data.package);
       localStorage.setItem('selectedPackage', JSON.stringify(data.package));
@@ -59,7 +60,9 @@ const PackageDetail = () => {
       );
     }
     distanceMetrix().then(() => {
+      console.log();
       const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
+      console.log(dist);
       setDistance(dist);
     });
   }, [data, distanceMetrix]);
