@@ -47,7 +47,6 @@ const PackageDetail = () => {
     }
   }
   useEffect(() => {
-    console.log('hello!');
     if (data !== null) {
       setPackages(data.package);
       localStorage.setItem('selectedPackage', JSON.stringify(data.package));
@@ -60,7 +59,6 @@ const PackageDetail = () => {
       );
     }
     distanceMetrix().then(() => {
-      console.log();
       const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
       console.log(dist);
       setDistance(dist);
@@ -84,6 +82,7 @@ const PackageDetail = () => {
     values,
     error,
   };
+  console.log(distance);
   return (
     <div className="">
       <div className="flex justify-center items-center w-full md:items-center bg-gray-200">
@@ -98,16 +97,18 @@ const PackageDetail = () => {
           {location !== null && destination !== null && (
             <AppMap location={location} destination={destination} />
           )}
-          <div className="p-3">
-            <p className="flex justify-between pb-2">
-              <span>Distance:</span>
-              {distance.rows[0].elements[0].distance.text}
-            </p>
-            <p className="flex justify-between">
-              <span>Duration:</span>
-              {distance.rows[0].elements[0].duration.text}
-            </p>
-          </div>
+          {
+            <div className="p-3">
+              <p className="flex justify-between pb-2">
+                <span>Distance:</span>
+                {distance.rows[0].elements[0].distance.text}
+              </p>
+              <p className="flex justify-between">
+                <span>Duration:</span>
+                {distance.rows[0].elements[0].duration.text}
+              </p>
+            </div>
+          }
           {isLoading && (
             <h2 className="font-bold mt-3 text-center">
               updating destination...
