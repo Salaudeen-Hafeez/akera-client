@@ -4,6 +4,7 @@ const validateForm = (values) => {
     error = { message: 'Empty values entered' };
   } else {
     Object.entries(values).forEach(([key, value]) => {
+      values[key] = value.trim();
       if (key === 'frajile' && value === '') {
         return;
       }
@@ -32,12 +33,12 @@ const validateForm = (values) => {
       } else if (key === 'email') {
         if (
           !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            value
+            value.trim()
           )
         ) {
           error = { ...error, [key]: 'Invalid email address' };
         }
-        values['email'] = value.toLowerCase();
+        values['email'] = value.toLowerCase().trim();
       } else if (key === 'sender' || key === 'reciever') {
         if (
           !value.match(
@@ -49,7 +50,7 @@ const validateForm = (values) => {
       }
     });
   }
-
+  console.log(values);
   return error;
 };
 

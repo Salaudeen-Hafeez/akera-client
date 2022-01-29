@@ -8,7 +8,7 @@ import PlaceAutocomplete from '../Placeautocomplete';
 const Package = () => {
   const { handleChange, handleSubmit, isLoading, values, error } =
     usePackageForm(validateForm);
-
+  console.log(error);
   const usePackageFormData = {
     handleChange,
     values,
@@ -36,6 +36,9 @@ const Package = () => {
             </p>
           </div>
           {isLoading && <h2>Loading....</h2>}
+          <small className="text-red-600 font-bold brightness-105">
+            {Object.keys(error).length > 0 && error.errMessage}
+          </small>
           <div>
             <PackageComponent
               data={usePackageFormData}

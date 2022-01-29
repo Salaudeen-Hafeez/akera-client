@@ -30,6 +30,7 @@ const SignUp = () => {
       setUrl('');
     }
   };
+  console.log(values);
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
     if (data !== null && Object.keys(error).length === 0) {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useSignupForm = (validate) => {
+const useSignupForm = () => {
   const [values, setValues] = useState({
     name: '',
     username: '',

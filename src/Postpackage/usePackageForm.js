@@ -50,7 +50,8 @@ const usePackageForm = (validate) => {
   };
   const distanceMetrix = async (packages) => {
     const service = new window.google.maps.DistanceMatrixService();
-    let tripFare;
+    let tripFare = null;
+    let notFound = null;
     const request = {
       origins: [packages.location],
       destinations: [packages.destination],
@@ -68,8 +69,10 @@ const usePackageForm = (validate) => {
     const { distance, duration, status } = distMetrix.rows[0].elements[0];
     if (status === 'OK') {
       tripFare = cost(distance.value, duration.value);
+    } else {
+      notFound = { errMessage: 'Address entered not found' };
     }
-    return { tripFare, distMetrix };
+    return { tripFare, notFound };
   };
 
   const handleChange = (e) => {
@@ -89,7 +92,7 @@ const usePackageForm = (validate) => {
     } else {
       setValues({
         ...values,
-        [name]: value.trim(),
+        [name]: value,
       });
     }
   };
@@ -97,10 +100,15 @@ const usePackageForm = (validate) => {
     e.preventDefault();
     const errors = validate(values);
     if (Object.keys(errors).length === 0) {
-      const { tripFare } = await distanceMetrix(values);
-      values['cost'] = tripFare;
-      setError(errors);
-      setUrl(uri);
+      const { tripFare, notFound } = await distanceMetrix(values);
+      if (tripFare !== null) {
+        values['cost'] = tripFare;
+        setError(errors);
+        setUrl(uri);
+      } else {
+        setError(notFound);
+        setUrl('');
+      }
     } else {
       setError(errors);
       setUrl('');
