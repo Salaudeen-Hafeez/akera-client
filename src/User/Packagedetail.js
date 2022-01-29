@@ -90,7 +90,7 @@ const PackageDetail = () => {
           {location !== null && destination !== null && (
             <AppMap location={location} destination={destination} />
           )}
-          <div className="py-3">
+          <div className="p-3">
             <p className="flex justify-between pb-2">
               <span>Distance:</span>
               {distance.rows[0].elements[0].distance.text}

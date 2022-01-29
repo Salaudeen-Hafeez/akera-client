@@ -5,7 +5,7 @@ const useFetchPost = (url, values) => {
   const [fetchError, setFetchError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    // const abortConst = new AbortController();
+    const abortConst = new AbortController();
     if (url !== '') {
       setIsLoading(true);
       fetch(url, {
@@ -36,7 +36,7 @@ const useFetchPost = (url, values) => {
     }
 
     return () => {
-      // abortConst.abort();
+      abortConst.abort();
     };
   }, [url, values]);
   return { data, fetchError, isLoading };

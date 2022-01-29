@@ -109,6 +109,7 @@ const usePackageForm = (validate) => {
   const { data, fetchError, isLoading } = useFetchPost(url, values, _username);
   useEffect(() => {
     if (data !== null) {
+      console.log(data);
       localStorage.setItem('selectedPackage', JSON.stringify(data.package));
       localStorage.setItem('packages', JSON.stringify(data.packages));
       navigate('/dashboard');

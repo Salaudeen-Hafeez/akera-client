@@ -26,6 +26,7 @@ const Admin = () => {
     if (data !== null && Object.keys(data).length !== 0) {
       if (data.users) {
         setUsers(data.users);
+        localStorage.setItem('users', JSON.stringify(data.users));
         setDeleteUrl('');
       } else if (data.package) {
         localStorage.setItem('packages', JSON.stringify(data.packages));

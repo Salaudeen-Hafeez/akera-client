@@ -33,14 +33,14 @@ const SignUp = () => {
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
     if (data !== null && Object.keys(error).length === 0) {
-      sessionStorage.clear();
+      localStorage.clear();
       if (values.email.includes('@sendit')) {
-        sessionStorage.setItem('adminData', JSON.stringify(data));
+        localStorage.setItem('adminData', JSON.stringify(data));
         signup().then(() => {
           navigate('/adminpage');
         });
       } else {
-        sessionStorage.setItem('userData', JSON.stringify(data));
+        localStorage.setItem('userData', JSON.stringify(data));
         signup().then(() => {
           navigate('/dashboard');
         });
