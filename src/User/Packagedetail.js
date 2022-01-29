@@ -57,11 +57,11 @@ const PackageDetail = () => {
       setGeoCode2Url(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${data.package._destination}&key=AIzaSyD9LtzkCH903RTWTMDehYnSmOVitAhBtwA`
       );
-      distanceMetrix().then(() => {
-        const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
-        setDistance(dist);
-      });
     }
+    distanceMetrix().then(() => {
+      const dist = JSON.parse(localStorage.getItem('distanceMetrix'));
+      setDistance(dist);
+    });
   }, [data, distanceMetrix]);
 
   const handleOkayButton = (e) => {
