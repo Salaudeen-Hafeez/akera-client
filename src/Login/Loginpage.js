@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from '../Universal/Logo';
 const LoginPage = (props) => {
   const { handleChange, handleSubmit, error, values, isLoading } = props;
 
@@ -7,12 +8,7 @@ const LoginPage = (props) => {
       onSubmit={handleSubmit}
       className="bg-gray-800 text-white rounded-md h-4/5 shadow-2xl"
     >
-      <a href="home.html" className="px-1 inline-flex items-center">
-        <img src="images/logo2.png" alt="Logo" className="w-10 h-9 mr-2" />
-        <span className="text-lg font-bold uppercase tracking-wide">
-          Akera Logistics
-        </span>
-      </a>
+      <Logo />
       {isLoading && <h2 className="text-center mt-10">Loading...</h2>}
       <div
         className="flex flex-col items-left justify-center

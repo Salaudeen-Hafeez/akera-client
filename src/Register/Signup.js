@@ -6,6 +6,7 @@ import useFetchPost from '../Fetchhooks/useFetchPost';
 import validateForm from '../Universal/ValidateForm';
 import SignupComponent from './SignupComponent';
 import { authContext } from '../useAuth';
+import Logo from '../Universal/Logo';
 
 const SignUp = () => {
   const [error, setError] = useState({});
@@ -61,12 +62,7 @@ const SignUp = () => {
         onSubmit={handleSubmit}
         className="bg-gray-800 text-white rounded-md min-h-max w-4/5 shadow-2xl md:w-2/5"
       >
-        <a href="home.html" className="px-1 inline-flex items-center">
-          <img src="images/logo2.png" alt="Logo" className="w-10 h-9 mr-2" />
-          <span className="text-lg font-bold uppercase tracking-wide">
-            Akera Logistics
-          </span>
-        </a>
+        <Logo />
         <div
           className="flex flex-col items-left justify-center
          bg-gray-800 text-white px-10 text-sm h-4/5 rounded-md"
