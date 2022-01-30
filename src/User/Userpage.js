@@ -11,7 +11,7 @@ const UserPage = () => {
   const packages = JSON.parse(localStorage.getItem('packages'));
   const [packageData, setPackageData] = useState({});
   const navigate = useNavigate();
-  const userNav = ['Logout'];
+  const linkItems = ['logout'];
   const handleClick = () => {
     if (!('auth_token' in user)) {
       navigate('/login');
@@ -49,7 +49,7 @@ const UserPage = () => {
   };
   return (
     <div>
-      <Navbar linkItems={userNav} />
+      <Navbar linkItems={linkItems} />
       <div className="text-gray-900">
         {user && (
           <div className="flex items-center flex-col ">

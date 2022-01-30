@@ -5,13 +5,14 @@ import { authContext } from '../useAuth';
 import { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-const Home = ({ homeNav, message }) => {
+const Home = ({ message }) => {
   const context = useContext(authContext);
   const { userAuthed } = context;
   const location = useLocation();
+  const linkItems = ['signup', 'login'];
   return userAuthed === null ? (
     <div>
-      <Navbar linkItems={homeNav} />
+      <Navbar linkItems={linkItems} />
       <Banner />
       <Main message={message} />
     </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetchDelete from '../Fetchhooks/useFetchDelete';
+import Navbar from '../Universal/Navbar';
 import { authContext } from '../useAuth';
 import AdminComponent from './Admincomponent';
 
@@ -22,6 +23,7 @@ const Admin = () => {
   const { data } = useFetchDelete(deleteUrl);
   const admin = JSON.parse(localStorage.getItem('admin'));
   const { admin_token, _email } = admin;
+  const linkItems = ['logout'];
   useEffect(() => {
     if (data !== null && Object.keys(data).length !== 0) {
       if (data.users) {
@@ -147,6 +149,7 @@ const Admin = () => {
 
   return (
     <div className="bg-gray-200 bg-opacity-15">
+      <Navbar linkItems={linkItems} />
       <AdminComponent data={admin} adminEvents={adminEvents} />
       <div className="md:w-full md:flex md:justify-center">
         {usersDataReady && users !== null && (

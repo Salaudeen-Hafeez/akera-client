@@ -1,4 +1,3 @@
-import Navbar from './Universal/Navbar';
 import Logout from './Universal/Logout';
 import Login from './Login/Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -19,8 +18,6 @@ function App() {
     transport: 'We transport the package',
     deliver: 'We deliver the package',
   };
-  const homeNav = ['signup', 'login'];
-  const adminNav = ['logout'];
 
   return (
     <AuthProvider>
@@ -35,10 +32,7 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/"
-              element={<Home homeNav={homeNav} message={message} />}
-            />
+            <Route path="/" element={<Home message={message} />} />
 
             <Route path="/signup" element={<SignUp />} />
             <Route
@@ -69,10 +63,7 @@ function App() {
               path="/adminpage"
               element={
                 <RequireAuth>
-                  <div>
-                    <Navbar linkItems={adminNav} />
-                    <Admin />
-                  </div>
+                  <Admin />
                 </RequireAuth>
               }
             />

@@ -1,15 +1,7 @@
-import { Link } from 'react-router-dom';
 const Banner = () => {
   return (
     <div>
-      <div className="text-right text-white bg-gray-700">
-        <Link to={'signup'} className="text-lg pr-6 underline">
-          sign-up
-        </Link>
-        <Link to={'login'} className="text-lg p-3 underline">
-          login
-        </Link>
-      </div>
+      <div className="text-right text-white bg-gray-700"></div>
       <header id="showcase" className="">
         <div className="bg-banner w-full h-96 items-center flex flex-col justify-center">
           <div className="font-bold bg-mainbg rounded-lg bg-opacity-60 backdrop-filter ">

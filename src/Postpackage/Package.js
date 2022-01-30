@@ -4,6 +4,7 @@ import PackageComponent from './Packagecomponent';
 import Logo from '../Universal/Logo';
 import CheckboxComponent from './Chechbox';
 import PlaceAutocomplete from '../Placeautocomplete';
+import { Link } from 'react-router-dom';
 
 const Package = () => {
   const { handleChange, handleSubmit, isLoading, values, error } =
@@ -23,7 +24,16 @@ const Package = () => {
         className="bg-gray-800 text-white rounded-md 
         min-h-max w-4/5 shadow-2xl md:w-2/5"
       >
-        <Logo />
+        <div className="flex justify-between">
+          <Logo />
+          <Link
+            to={'/dashboard'}
+            className="text-lg py-2 text-gray-300 underline px-4"
+          >
+            dashboard
+          </Link>
+        </div>
+
         <div
           className="flex flex-col items-left justify-center
         bg-gray-800 text-white px-10 text-sm h-4/5 rounded-md"
