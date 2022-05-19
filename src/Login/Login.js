@@ -21,6 +21,7 @@ const Login = () => {
     setUrl('');
     if (data !== null && Object.keys(error).length === 0) {
       localStorage.clear();
+      console.log(values);
       if (values.email.includes('@sendit')) {
         localStorage.setItem('admin', JSON.stringify(data.admin));
         localStorage.setItem('users', JSON.stringify(data.users));
@@ -46,6 +47,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validateForm(values);
+    console.log(values);
     if (Object.keys(errors).length === 0) {
       setError(errors);
       setUrl(userUrl);

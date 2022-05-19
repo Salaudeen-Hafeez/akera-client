@@ -6,6 +6,7 @@ const useFetchPost = (url, values) => {
   const [isLoading, setIsLoading] = useState(false);
 
   console.log(values);
+  console.log(url);
 
   const user = JSON.parse(localStorage.getItem('user'));
   let token;
