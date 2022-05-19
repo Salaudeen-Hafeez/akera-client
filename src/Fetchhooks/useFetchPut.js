@@ -58,7 +58,7 @@ const useFetchPut = (url, values) => {
     return () => {
       // abortConst.abort();
     };
-  }, [url, values]);
+  }, [url, values, myHeaders]);
   return { data, fetchError, isLoading };
 };
 

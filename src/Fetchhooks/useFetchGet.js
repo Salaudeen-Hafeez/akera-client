@@ -50,7 +50,7 @@ const useFetchGet = (url, values) => {
           setIsLoading(false);
         });
     }
-  }, [url, values]);
+  }, [url, values, myHeaders]);
   return { data, fetchError, isLoading };
 };
 

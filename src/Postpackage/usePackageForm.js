@@ -4,7 +4,7 @@ import useFetchPost from '../Fetchhooks/useFetchPost';
 
 const usePackageForm = (validate) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const { _username, _email, auth_token } = user;
+  const { _username } = user;
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [url, setUrl] = useState('');

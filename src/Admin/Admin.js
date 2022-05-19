@@ -22,7 +22,7 @@ const Admin = () => {
 
   const { data } = useFetchDelete(deleteUrl);
   const admin = JSON.parse(localStorage.getItem('admin'));
-  const { admin_token, _email } = admin;
+  const { admin_token } = admin;
   const linkItems = ['logout'];
   useEffect(() => {
     if (data !== null && Object.keys(data).length !== 0) {
@@ -122,8 +122,6 @@ const Admin = () => {
   const handleDelete = (e) => {
     e.preventDefault();
     const id = e.target.id;
-    const username = e.target.parentElement.parentElement.children[1].innerText;
-    const status = e.target.parentElement.children[0].innerText;
     setDeleteUrl(
       `https://akera-logistics.herokuapp.com/api/v1/parcels/${id}/delete`
     );
@@ -134,7 +132,6 @@ const Admin = () => {
   const handleDeleteUser = (e) => {
     e.preventDefault();
     const id = e.target.id;
-    const username = e.target.name;
     setDeleteUrl(
       `https://akera-logistics.herokuapp.com/api/v1/users/${id}/delete`
     );

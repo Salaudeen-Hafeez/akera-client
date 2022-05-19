@@ -6,15 +6,12 @@ const useDestinationForm = (validate) => {
   const [url, setUrl] = useState('');
   const packages = JSON.parse(localStorage.getItem('selectedPackage'));
   let token = '';
-  let name, email, userId;
+  let name;
   const user =
     JSON.parse(localStorage.getItem('user')) ||
     JSON.parse(localStorage.getItem('admin'));
   if (user !== null) {
-    email = user._email;
-    userId = user.users_id;
     if (user.admin_token) {
-      token = user.admin_token;
       name = '_location';
     } else {
       token = user.auth_token;
