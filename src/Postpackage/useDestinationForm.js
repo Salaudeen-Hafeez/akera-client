@@ -14,7 +14,6 @@ const useDestinationForm = (validate) => {
     if (user.admin_token) {
       name = '_location';
     } else {
-      token = user.auth_token;
       name = '_destination';
     }
   }
