@@ -5,7 +5,6 @@ const useDestinationForm = (validate) => {
   const [error, setError] = useState({});
   const [url, setUrl] = useState('');
   const packages = JSON.parse(localStorage.getItem('selectedPackage'));
-  let token = '';
   let name;
   const user =
     JSON.parse(localStorage.getItem('user')) ||
