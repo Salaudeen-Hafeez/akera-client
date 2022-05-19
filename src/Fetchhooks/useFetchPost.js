@@ -4,6 +4,24 @@ const useFetchPost = (url, values) => {
   const [data, setData] = useState(null);
   const [fetchError, setFetchError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem('user'));
+  let token;
+  if (user) {
+    token = user.auth_token;
+  }
+
+  const getHeaders = (token) => {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', token);
+    return myHeaders;
+  };
+
+  const myHeaders = useMemo(() => {
+    getHeaders(token);
+  }, [token]);
+
   useEffect(() => {
     const abortConst = new AbortController();
     if (url !== '') {
@@ -11,7 +29,7 @@ const useFetchPost = (url, values) => {
       fetch(url, {
         // signal: abortConst.signal,
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: myHeaders,
         body: JSON.stringify(values),
       })
         .then((resp) => {

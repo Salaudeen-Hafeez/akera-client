@@ -17,7 +17,7 @@ const usePackageForm = (validate) => {
     frajile: '',
     username: _username,
   });
-  const uri = `https://akera-logistics.herokuapp.com/api/v1/users/${_username}/${_email}/${auth_token}/packages`;
+  const uri = `https://akera-logistics.herokuapp.com/api/v1/parcels`;
   const toNaira = Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'NGN',

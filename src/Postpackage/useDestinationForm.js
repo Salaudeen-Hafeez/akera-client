@@ -27,9 +27,9 @@ const useDestinationForm = (validate) => {
     setUrl('');
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const uri = `https://akera-logistics.herokuapp.com/api/v1/users/${email}/${userId}/${token}/packages/${parseInt(
-    packages.parcel_id
-  )}`;
+  const id = parseInt(packages.parcel_id);
+  const uri = `https://akera-logistics.herokuapp.com/api/v1/parcels/${id}/destination`;
+  const uri1 = `https://akera-logistics.herokuapp.com/api/v1/parcels/${id}/status`;
   const { data, fetchError, isLoading } = useFetchPut(url, values);
   useEffect(() => {
     setUrl('');
@@ -43,7 +43,11 @@ const useDestinationForm = (validate) => {
       const errors = validate(values);
       if (Object.keys(errors).length === 0) {
         setError(errors);
-        setUrl(uri);
+        if (Object.keys(values).length === 1) {
+          setUrl(uri);
+        } else {
+          setUrl(uri1);
+        }
       } else {
         setError(errors);
         setUrl('');

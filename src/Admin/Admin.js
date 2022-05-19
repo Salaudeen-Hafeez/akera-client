@@ -125,7 +125,7 @@ const Admin = () => {
     const username = e.target.parentElement.parentElement.children[1].innerText;
     const status = e.target.parentElement.children[0].innerText;
     setDeleteUrl(
-      `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/${username}/packages/${id}/${status}`
+      `https://akera-logistics.herokuapp.com/api/v1/parcels/${id}/delete`
     );
   };
   const handleSelectedUser = (e) => {
@@ -136,7 +136,7 @@ const Admin = () => {
     const id = e.target.id;
     const username = e.target.name;
     setDeleteUrl(
-      `https://akera-logistics.herokuapp.com/api/v1/users/${_email}/${admin_token}/${username}/${id}`
+      `https://akera-logistics.herokuapp.com/api/v1/users/${id}/delete`
     );
   };
   const adminEvents = {
@@ -148,14 +148,14 @@ const Admin = () => {
   };
 
   return (
-    <div className="bg-gray-200 bg-opacity-15">
+    <div className='bg-gray-200 bg-opacity-15'>
       <Navbar linkItems={linkItems} />
       <AdminComponent data={admin} adminEvents={adminEvents} />
-      <div className="md:w-full md:flex md:justify-center">
+      <div className='md:w-full md:flex md:justify-center'>
         {usersDataReady && users !== null && (
           <div
-            className="md:grid md:grid-cols-3 md:grid-flow-rows 
-          md:gap-3 list-none"
+            className='md:grid md:grid-cols-3 md:grid-flow-rows 
+          md:gap-3 list-none'
           >
             {users.map((user) => {
               return (
@@ -163,18 +163,18 @@ const Admin = () => {
                   id={user.users_id}
                   key={user.users_id}
                   onClick={handleSelectedUser}
-                  className="bg-mainbg p-3 rounded-lg 
-                  cursor-pointer shadow-inner hover:shadow-md"
+                  className='bg-mainbg p-3 rounded-lg 
+                  cursor-pointer shadow-inner hover:shadow-md'
                 >
-                  <h2 className="font-bold ">{user._name}</h2>
+                  <h2 className='font-bold '>{user._name}</h2>
                   <p>{user._email}</p>
                   <p>{user._username}</p>
-                  <div className="flex items-end justify-between pt-2">
-                    <p className="text-blue-700 underline cursor-pointer">
+                  <div className='flex items-end justify-between pt-2'>
+                    <p className='text-blue-700 underline cursor-pointer'>
                       {user._status}
                     </p>
                     <button
-                      className="text-right pr-3 text-red-400"
+                      className='text-right pr-3 text-red-400'
                       id={user.users_id}
                       name={user._username}
                       onClick={handleDeleteUser}
@@ -189,11 +189,11 @@ const Admin = () => {
         )}
         {packageDataReady && packages1 !== null && (
           <div
-            className="md:grid md:grid-cols-3 md:grid-flow-rows 
-          md:gap-3 list-none"
+            className='md:grid md:grid-cols-3 md:grid-flow-rows 
+          md:gap-3 list-none'
           >
             {packages1.length === 0 && (
-              <h2 className="font-bold text-xl text-red-500 text-center">
+              <h2 className='font-bold text-xl text-red-500 text-center'>
                 No packages
               </h2>
             )}
@@ -203,18 +203,18 @@ const Admin = () => {
                   key={packag.parcel_id}
                   id={packag.parcel_id}
                   onClick={handleSelectedPackage}
-                  className="bg-mainbg p-3 rounded-lg 
-                   shadow-inner hover:shadow-md hover:bg-gray-100"
+                  className='bg-mainbg p-3 rounded-lg 
+                   shadow-inner hover:shadow-md hover:bg-gray-100'
                 >
-                  <h2 className="font-bold ">{packag._name}</h2>
+                  <h2 className='font-bold '>{packag._name}</h2>
                   <p>{packag._username}</p>
                   <p>{packag._location}</p>
-                  <div className="flex items-end justify-between pt-2">
-                    <p className="text-blue-700 underline cursor-pointer">
+                  <div className='flex items-end justify-between pt-2'>
+                    <p className='text-blue-700 underline cursor-pointer'>
                       {packag._status}
                     </p>
                     <button
-                      className="text-right p-3 text-red-400"
+                      className='text-right p-3 text-red-400'
                       onClick={handleDelete}
                       name={packag._username}
                       value={packag._status}
