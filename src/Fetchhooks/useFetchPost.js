@@ -60,6 +60,7 @@ const useFetchPost = (url, values) => {
       abortConst.abort();
     };
   }, [url, values, myHeaders]);
+  console.log(data);
   return { data, fetchError, isLoading };
 };
 
