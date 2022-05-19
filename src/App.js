@@ -12,6 +12,7 @@ import Home from './Home/Home';
 import PageNotFound from './404';
 
 function App() {
+  localStorage.clear();
   const message = {
     packaging: 'We do the packaging',
     seal: 'We seal the package',
@@ -22,21 +23,21 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="font-serif">
+        <div className='font-serif'>
           <Routes>
             <Route
-              path="/login"
+              path='/login'
               element={
                 <RequireAuth>
                   <Login />
                 </RequireAuth>
               }
             />
-            <Route path="/" element={<Home message={message} />} />
+            <Route path='/' element={<Home message={message} />} />
 
-            <Route path="/signup" element={<SignUp />} />
+            <Route path='/signup' element={<SignUp />} />
             <Route
-              path="/addpackage"
+              path='/addpackage'
               element={
                 <RequireAuth>
                   <Package />
@@ -44,7 +45,7 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path='/dashboard'
               element={
                 <RequireAuth>
                   <UserPage />
@@ -52,7 +53,7 @@ function App() {
               }
             />
             <Route
-              path="/packagepage"
+              path='/packagepage'
               element={
                 <RequireAuth>
                   <PackageDetail />
@@ -60,15 +61,15 @@ function App() {
               }
             />
             <Route
-              path="/adminpage"
+              path='/adminpage'
               element={
                 <RequireAuth>
                   <Admin />
                 </RequireAuth>
               }
             />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="*" element={<PageNotFound />} />
+            <Route path='/logout' element={<Logout />} />
+            <Route path='*' element={<PageNotFound />} />
           </Routes>
         </div>
       </Router>

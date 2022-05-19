@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { authContext } from '../useAuth';
 
 const UserPage = () => {
-  localStorage.clear();
   const context = useContext(authContext);
   const { distanceMetrix } = context;
   const user = JSON.parse(localStorage.getItem('user'));
