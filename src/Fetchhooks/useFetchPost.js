@@ -26,7 +26,7 @@ const useFetchPost = (url, values) => {
   }, [token]);
 
   useEffect(() => {
-    const abortConst = new AbortController();
+    //const abortConst = new AbortController();
     if (url !== '') {
       setIsLoading(true);
       fetch(url, {
@@ -56,9 +56,9 @@ const useFetchPost = (url, values) => {
         });
     }
 
-    return () => {
-      abortConst.abort();
-    };
+    // return () => {
+    //   abortConst.abort();
+    // };
   }, [url, values, myHeaders]);
   console.log(data);
   return { data, fetchError, isLoading };
