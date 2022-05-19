@@ -1,29 +1,29 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 const useFetchPost = (url, values) => {
   const [data, setData] = useState(null);
   const [fetchError, setFetchError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(values);
-  console.log(url);
+  // console.log(values);
+  // console.log(url);
 
-  const user = JSON.parse(localStorage.getItem('user'));
-  let token;
-  if (user) {
-    token = user.auth_token;
-  }
+  // const user = JSON.parse(localStorage.getItem('user'));
+  // let token;
+  // if (user) {
+  //   token = user.auth_token;
+  // }
 
-  const getHeaders = (token) => {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', token);
-    return myHeaders;
-  };
+  // const getHeaders = (token) => {
+  //   const myHeaders = new Headers();
+  //   myHeaders.append('Content-Type', 'application/json');
+  //   myHeaders.append('Authorization', token);
+  //   return myHeaders;
+  // };
 
-  const myHeaders = useMemo(() => {
-    getHeaders(token);
-  }, [token]);
+  // const myHeaders = useMemo(() => {
+  //   getHeaders(token);
+  // }, [token]);
 
   useEffect(() => {
     //const abortConst = new AbortController();
@@ -59,7 +59,7 @@ const useFetchPost = (url, values) => {
     // return () => {
     //   abortConst.abort();
     // };
-  }, [url, values, myHeaders]);
+  }, [url, values]);
   console.log(data);
   console.log(fetchError);
   return { data, fetchError, isLoading };
