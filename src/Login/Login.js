@@ -48,6 +48,7 @@ const Login = () => {
     e.preventDefault();
     const errors = validateForm(values);
     console.log(values);
+    console.log(errors);
     if (Object.keys(errors).length === 0) {
       setError(errors);
       setUrl(userUrl);
