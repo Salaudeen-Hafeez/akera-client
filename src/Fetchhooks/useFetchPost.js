@@ -61,6 +61,7 @@ const useFetchPost = (url, values) => {
     // };
   }, [url, values, myHeaders]);
   console.log(data);
+  console.log(fetchError);
   return { data, fetchError, isLoading };
 };
 
