@@ -14,9 +14,7 @@ const Login = () => {
   const context = useContext(authContext);
   const { login } = context;
 
-  const userUrl = 'https://akera-logistics.herokuapp.com/api/v1/users/login';
-  const adminUrl =
-    'https://akera-logistics.herokuapp.com/api/v1/users/admins/login';
+  const userUrl = 'https://akera-logistics.herokuapp.com/api/v1/login';
 
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
@@ -50,18 +48,14 @@ const Login = () => {
     const errors = validateForm(values);
     if (Object.keys(errors).length === 0) {
       setError(errors);
-      if (!values.email.includes('@sendit.com')) {
-        setUrl(userUrl);
-      } else {
-        setUrl(adminUrl);
-      }
+      setUrl(userUrl);
     } else {
       setError(errors);
       setUrl('');
     }
   };
   return (
-    <div className="flex items-center bg-gray-100 justify-center w-full h-screen">
+    <div className='flex items-center bg-gray-100 justify-center w-full h-screen'>
       <LoginPage
         handleChange={handleChange}
         handleSubmit={handleSubmit}
