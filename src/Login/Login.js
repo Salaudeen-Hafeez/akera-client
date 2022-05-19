@@ -23,21 +23,22 @@ const Login = () => {
       localStorage.clear();
       console.log(values);
       if (values.email.includes('@sendit')) {
-        localStorage.setItem('admin', JSON.stringify(data.admin));
-        localStorage.setItem('users', JSON.stringify(data.users));
-        localStorage.setItem('packages', JSON.stringify(data.packages));
+        //localStorage.setItem('admin', JSON.stringify(data.admin));
+        //localStorage.setItem('users', JSON.stringify(data.users));
+        //localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
-          navigate('/adminpage');
+          //navigate('/adminpage');
         });
       } else {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('packages', JSON.stringify(data.packages));
+        //localStorage.setItem('user', JSON.stringify(data.user));
+        //localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
-          navigate('/dashboard');
+          //navigate('/dashboard');
         });
       }
     }
   }, [fetchError, data, error, values, navigate, login]);
+
   useEffect(() => {
     if (Object.keys(fetchError).length !== 0) {
       setError(fetchError);
