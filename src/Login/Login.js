@@ -14,7 +14,7 @@ const Login = () => {
   const context = useContext(authContext);
   const { login } = context;
 
-  const userUrl = 'https://akera-logistics.herokuapp.com/api/v1/login';
+  const loginUrl = 'https://akera-logistics.herokuapp.com/api/v1/login';
 
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
@@ -52,7 +52,7 @@ const Login = () => {
     console.log(errors);
     if (Object.keys(errors).length === 0) {
       setError(errors);
-      setUrl(userUrl);
+      setUrl(loginUrl);
     } else {
       setError(errors);
       setUrl('');
