@@ -19,6 +19,8 @@ const Login = () => {
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
     setUrl('');
+    console.log(values);
+    console.log(data);
     if (data !== null && Object.keys(error).length === 0) {
       localStorage.clear();
       if (values.email.includes('@sendit')) {
