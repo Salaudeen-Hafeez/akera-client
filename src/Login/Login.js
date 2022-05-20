@@ -29,6 +29,7 @@ const Login = () => {
           navigate('/adminpage');
         });
       } else {
+        console.log(data);
         localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
