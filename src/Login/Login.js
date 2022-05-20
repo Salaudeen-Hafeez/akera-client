@@ -21,19 +21,18 @@ const Login = () => {
     setUrl('');
     if (data !== null && Object.keys(error).length === 0) {
       localStorage.clear();
-      console.log(values);
       if (values.email.includes('@sendit')) {
-        //localStorage.setItem('admin', JSON.stringify(data.admin));
-        //localStorage.setItem('users', JSON.stringify(data.users));
-        //localStorage.setItem('packages', JSON.stringify(data.packages));
+        localStorage.setItem('admin', JSON.stringify(data.admin));
+        localStorage.setItem('users', JSON.stringify(data.users));
+        localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
-          //navigate('/adminpage');
+          navigate('/adminpage');
         });
       } else {
-        //localStorage.setItem('user', JSON.stringify(data.user));
-        //localStorage.setItem('packages', JSON.stringify(data.packages));
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('packages', JSON.stringify(data.packages));
         login().then(() => {
-          //navigate('/dashboard');
+          navigate('/dashboard');
         });
       }
     }
