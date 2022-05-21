@@ -16,36 +16,36 @@ const Package = () => {
   };
   return (
     <div
-      className="flex items-center bg-gray-100 
-    justify-center w-full h-screen"
+      className='flex items-center bg-gray-100 
+    justify-center w-full h-screen'
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-800 text-white rounded-md 
-        min-h-max w-4/5 shadow-2xl md:w-2/5"
+        className='bg-gray-800 text-white rounded-md 
+        min-h-max w-4/5 shadow-2xl md:w-2/5'
       >
-        <div className="flex justify-between">
+        <div className='flex justify-between'>
           <Logo />
           <Link
             to={'/dashboard'}
-            className="text-lg py-2 text-gray-300 underline px-4"
+            className='text-lg py-2 text-gray-300 underline px-4'
           >
             dashboard
           </Link>
         </div>
 
         <div
-          className="flex flex-col items-left justify-center
-        bg-gray-800 text-white px-10 text-sm h-4/5 rounded-md"
+          className='flex flex-col items-left justify-center
+        bg-gray-800 text-white px-10 text-sm h-4/5 rounded-md'
         >
-          <div className="text-center">
-            <h2 className="mb-6 text-lg font-bold">Add new package</h2>
-            <p className="mb-4">
+          <div className='text-center'>
+            <h2 className='mb-6 text-lg font-bold'>Add new package</h2>
+            <p className='mb-4'>
               Kindly fill the form below to add new package order
             </p>
           </div>
           {isLoading && <h2>Loading....</h2>}
-          <small className="text-red-600 font-bold brightness-105">
+          <small className='text-red-600 font-bold brightness-105'>
             {Object.keys(error).length > 0 && error.errMessage}
           </small>
           <div>
@@ -83,10 +83,10 @@ const Package = () => {
             />
           </div>
           <input
-            type="submit"
-            className="mb-4 px-4 py-2 bg-gray-700 rounded hover:bg-gray-900"
-            id="submitBtn"
-            value="Add package"
+            type='submit'
+            className='mb-4 px-4 py-2 bg-gray-700 rounded hover:bg-gray-900'
+            id='submitBtn'
+            value='Add package'
           />
         </div>
       </form>
