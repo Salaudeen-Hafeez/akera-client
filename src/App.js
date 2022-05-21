@@ -12,7 +12,6 @@ import Home from './Home/Home';
 import PageNotFound from './404';
 
 function App() {
-  localStorage.clear();
   const message = {
     packaging: 'We do the packaging',
     seal: 'We seal the package',
