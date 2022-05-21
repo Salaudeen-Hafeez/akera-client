@@ -24,7 +24,7 @@ const useFetchPost = (url, values) => {
   const myHeaders = useMemo(() => {
     getHeaders(token);
   }, [token]);
-
+  console.log(myHeaders);
   useEffect(() => {
     //const abortConst = new AbortController();
     if (url !== '') {
