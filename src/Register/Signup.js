@@ -20,6 +20,7 @@ const SignUp = () => {
     e.preventDefault();
     const errors = validateForm(values);
     if (Object.keys(errors).length === 0) {
+      delete values.password2;
       setError(errors);
       setUrl('https://akera-logistics.herokuapp.com/api/v1/signup');
     } else if (Object.keys(errors).length !== 0) {
