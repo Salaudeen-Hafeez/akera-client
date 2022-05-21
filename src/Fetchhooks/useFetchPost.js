@@ -49,7 +49,7 @@ const useFetchPost = (url, values) => {
     // return () => {
     //   abortConst.abort();
     // };
-  }, [url, values]);
+  }, [url, values, token]);
   console.log(data);
   console.log(fetchError);
   return { data, fetchError, isLoading };
