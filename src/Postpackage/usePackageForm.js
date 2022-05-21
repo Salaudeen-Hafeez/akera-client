@@ -120,7 +120,7 @@ const usePackageForm = (validate) => {
       localStorage.setItem('selectedPackage', JSON.stringify(data.package));
       localStorage.setItem('packages', JSON.stringify(data.packages));
       console.log(data);
-      // navigate('/packagepage');
+      navigate('/packagepage');
     }
   }, [data, navigate]);
 
