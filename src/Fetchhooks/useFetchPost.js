@@ -14,16 +14,10 @@ const useFetchPost = (url, values) => {
     token = user.auth_token;
   }
 
-  const getHeaders = (token) => {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', token);
-    return myHeaders;
-  };
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Authorization', token);
 
-  const myHeaders = useMemo(() => {
-    getHeaders(token);
-  }, [token]);
   console.log(myHeaders);
   useEffect(() => {
     //const abortConst = new AbortController();
