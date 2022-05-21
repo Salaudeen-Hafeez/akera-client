@@ -19,8 +19,6 @@ const Login = () => {
   const { data, fetchError, isLoading } = useFetchPost(url, values);
   useEffect(() => {
     setUrl('');
-    console.log(values);
-    console.log(data);
     if (data !== null && Object.keys(error).length === 0) {
       localStorage.clear();
       if (values.email.includes('@sendit')) {
@@ -50,8 +48,6 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validateForm(values);
-    console.log(values);
-    console.log(errors);
     if (Object.keys(errors).length === 0) {
       setError(errors);
       setUrl(loginUrl);
