@@ -9,12 +9,7 @@ const useFetchGet = (url, values) => {
     if (url !== '') {
       setIsLoading(true);
 
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      fetch(url)
         .then((resp) => {
           return resp.json();
         })
