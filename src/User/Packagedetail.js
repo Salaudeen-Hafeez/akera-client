@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useFetchGet from '../Fetchhooks/useFetchGet';
+import useFetchGoogle from '../Fetchhooks/useFetchGoogle';
 import AppMap from '../Map';
 import ChangeDestination from '../Postpackage/Changedestination';
 import Button from './Button';
@@ -38,8 +38,8 @@ const PackageDetail = () => {
   } = useDestinationForm(validateForm);
   let location = null;
   let destination = null;
-  const geoCode1 = useFetchGet(geoCode1Url);
-  const geoCode2 = useFetchGet(geoCode2Url);
+  const geoCode1 = useFetchGoogle(geoCode1Url);
+  const geoCode2 = useFetchGoogle(geoCode2Url);
   if (geoCode1.data !== null && geoCode2.data !== null) {
     if (geoCode1.data.status === 'OK' && geoCode2.data.status === 'OK') {
       location = geoCode1.data.results[0].geometry.location;
@@ -82,10 +82,10 @@ const PackageDetail = () => {
     error,
   };
   return (
-    <div className="">
-      <div className="flex justify-center items-center w-full md:items-center bg-gray-200">
-        <div className="md:w-3/5">
-          <h2 className="text-center font-bold py-3">Package details</h2>
+    <div className=''>
+      <div className='flex justify-center items-center w-full md:items-center bg-gray-200'>
+        <div className='md:w-3/5'>
+          <h2 className='text-center font-bold py-3'>Package details</h2>
           <DisplayPackage packages={packages} />
           <Button
             handleOkayButton={handleOkayButton}
@@ -96,24 +96,24 @@ const PackageDetail = () => {
             <AppMap location={location} destination={destination} />
           )}
           {distance !== null && (
-            <div className="p-3">
-              <p className="flex justify-between pb-2">
+            <div className='p-3'>
+              <p className='flex justify-between pb-2'>
                 <span>Distance:</span>
                 {distance.rows[0].elements[0].distance.text}
               </p>
-              <p className="flex justify-between">
+              <p className='flex justify-between'>
                 <span>Duration:</span>
                 {distance.rows[0].elements[0].duration.text}
               </p>
             </div>
           )}
           {isLoading && (
-            <h2 className="font-bold mt-3 text-center">
+            <h2 className='font-bold mt-3 text-center'>
               updating destination...
             </h2>
           )}
 
-          <div className="flex flex-col mb-3">
+          <div className='flex flex-col mb-3'>
             <ChangeDestination data={usePackageFormData} user={user} />
           </div>
         </div>
