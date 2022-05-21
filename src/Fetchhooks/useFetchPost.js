@@ -11,7 +11,6 @@ const useFetchPost = (url, values) => {
     token = user.auth_token;
   }
 
-  console.log(token);
   useEffect(() => {
     //const abortConst = new AbortController();
     if (url !== '') {

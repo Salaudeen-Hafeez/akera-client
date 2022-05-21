@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 const useFetchPut = (url, values) => {
   const [data, setData] = useState(null);
@@ -13,16 +13,6 @@ const useFetchPut = (url, values) => {
   } else if (user) {
     token = user.auth_token;
   }
-  const getHeaders = (token) => {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', token);
-    return myHeaders;
-  };
-
-  const myHeaders = useMemo(() => {
-    getHeaders(token);
-  }, [token]);
 
   useEffect(() => {
     // const abortConst = new AbortController();
@@ -31,7 +21,10 @@ const useFetchPut = (url, values) => {
       fetch(url, {
         // signal: abortConst.signal,
         method: 'PUT',
-        headers: myHeaders,
+        headers: new Headers({
+          Authorization: token,
+          'Content-Type': 'application/json',
+        }),
         body: JSON.stringify(values),
       })
         .then((resp) => {
@@ -58,7 +51,7 @@ const useFetchPut = (url, values) => {
     return () => {
       // abortConst.abort();
     };
-  }, [url, values, myHeaders]);
+  }, [url, values, token]);
   return { data, fetchError, isLoading };
 };
 
